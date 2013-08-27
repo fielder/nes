@@ -101,7 +101,7 @@ palette[1] = nes_palette[45]
 palette[2] = nes_palette[0]
 palette[3] = nes_palette[16]
 
-spacing = 4
+spacing = 4.0
 
 
 def _pixmapForNESBytes(b):
@@ -136,13 +136,12 @@ def refreshGUI():
     _createPixmaps()
 
     scene.clear()
-    #TODO: reset the view so the scrollbar resets properly
 
-    stride = 8 + spacing
+    stride = 8.0 + spacing
 
     idx = 0
-    x = 0
-    y = 0
+    x = 0.0
+    y = 0.0
     for file_offset, pixmap in pixmaps.iteritems():
         x += stride
 
@@ -153,7 +152,9 @@ def refreshGUI():
         idx += 1
         if idx > 0 and ((idx % 16) == 0):
             y += stride
-            x = 0
+            x = 0.0
+
+    scene.views()[0].setSceneRect(scene.itemsBoundingRect())
 
 
 def _chop(dat, chopsz):
@@ -274,7 +275,7 @@ def _changeSpacing():
     global spacing
 
     try:
-        new = int(str(app.sender().text()))
+        new = float(str(app.sender().text()))
         if new < 0 or new > 16:
             raise ValueError()
     except ValueError:
